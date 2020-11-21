@@ -9,8 +9,13 @@ exports.createParkingLot = (size, outputFilePath) => {
     for (let slot = 1; slot <= size; slot++) {
         bookedSlots[slot] = null;
     }
-    carParkingModel.saveFile({ size, bookedSlots }, outputFilePath);
-    console.log('Created parking of ' + size + ' slots');
+    try {
+        carParkingModel.saveFile({ size, bookedSlots }, outputFilePath);
+        console.log('Created parking of ' + size + ' slots');
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
 }
 
 exports.park = (driver_age, car_num, parkRegister, outputFilePath) => {
@@ -38,8 +43,13 @@ exports.park = (driver_age, car_num, parkRegister, outputFilePath) => {
 
     parkRegister['size'] -= 1;
 
-    carParkingModel.saveFile(parkRegister, outputFilePath);
-    console.log('Car with vehicle registration number ' + car_num + ' has been parked at slot num ' + acquiredSpot);
+    try {
+        carParkingModel.saveFile(parkRegister, outputFilePath);
+        console.log('Car with vehicle registration number ' + car_num + ' has been parked at slot num ' + acquiredSpot);
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
 }
 
 exports.getSlotNumForAge = (age, parkRegister) => {
@@ -77,9 +87,13 @@ exports.leave = (spot, parkRegister, outputFilePath) => {
     parkRegister.bookedSlots[spot] = null;
     parkRegister.size += 1;
 
-    carParkingModel.saveFile(parkRegister, outputFilePath);
-
-    console.log('Slot number ' + spot + ' vacated, the car with vehicle registration number ' + vehicle.car_num + ' left the space, the driver of the car was of age ' + vehicle.driver_age);
+    try {
+        carParkingModel.saveFile(parkRegister, outputFilePath);
+        console.log('Slot number ' + spot + ' vacated, the car with vehicle registration number ' + vehicle.car_num + ' left the space, the driver of the car was of age ' + vehicle.driver_age);
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
 }
 
 

@@ -14,10 +14,16 @@ const parseCarParkingSlot = (line, outputFilePath) => {
     const task = operations[0];
     let parkRegister = null;
 
-    if (!fs.existsSync(outputFilePath) && task == CREATE_PARKING)
-        parkingSlotModel.saveFile({}, outputFilePath);
-    else (!fs.existsSync(outputFilePath) && task != CREATE_PARKING)
-    parkRegister = JSON.parse(fs.readFileSync(outputFilePath, 'utf8'));
+    try {
+        if (!fs.existsSync(outputFilePath) && task == CREATE_PARKING)
+            parkingSlotModel.saveFile({}, outputFilePath);
+        else (!fs.existsSync(outputFilePath) && task != CREATE_PARKING)
+        parkRegister = JSON.parse(fs.readFileSync(outputFilePath, 'utf8'));
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Something went wrong while reading the file' });
+    }
 
 
     // Run iterations on every operation

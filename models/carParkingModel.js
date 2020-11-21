@@ -2,5 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 exports.saveFile = (data, filePath) => {
-    fs.writeFileSync(filePath, JSON.stringify(data));
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(data));
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
 }
